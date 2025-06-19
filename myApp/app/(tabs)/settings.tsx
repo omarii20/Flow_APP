@@ -45,7 +45,7 @@ export default function SettingsScreen() {
       if (!__DEV__) {
         await Updates.reloadAsync();
       } else {
-        console.warn('יש להפעיל את האפליקציה מחדש כדי להחיל את שינוי השפה');
+        console.warn('RTL change requires reload — available only in production build!');
       }
     }
   };
