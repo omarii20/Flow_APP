@@ -1,8 +1,22 @@
+// ✅ index.tsx (מעודכן עם תמיכה ב־i18n ו־RTL)
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  ScrollView,
+  Image,
+  I18nManager,
+} from 'react-native';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { Background } from '@react-navigation/elements';
+import i18n, { getRTL } from '../../i18n';
+import I18nText from '../../components/I18nText';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedInput } from '@/components/ThemedInput';
+import { ThemedCard } from '@/components/ThemedCard';
+import { ThemedButton } from '@/components/ThemedButton';
+
 
 type User = {
   id: number;
@@ -13,7 +27,7 @@ type User = {
 };
 
 const getWeekDates = (): string[] => {
-  const start = dayjs().startOf('week'); // ראשון
+  const start = dayjs().startOf('week');
   return Array.from({ length: 7 }, (_, i) =>
     start.add(i, 'day').format('YYYY-MM-DD')
   );
@@ -32,7 +46,6 @@ export default function HomeScreen() {
     axios
       .get<User[]>('https://685162198612b47a2c09d36e.mockapi.io/INFO-LESSONS')
       .then((res) => {
-        console.log(res.data)
         setUsers(res.data);
         setFilteredUsers(res.data);
       })
@@ -51,95 +64,96 @@ export default function HomeScreen() {
     );
   };
 
-  if (loading)
-    return <ActivityIndicator size="large" style={styles.center} />;
+  if (loading) return <ActivityIndicator size="large" style={styles.center} />;
 
   return (
-    <View style={styles.container}>
-      {/* Scroll Row for Week Dates */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.dateScroll}>
+    <ThemedView style={[styles.container, getRTL() && { direction: 'rtl' }]}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={[styles.dateScroll, getRTL() && { flexDirection: 'row-reverse' }]}
+      >
         {weekDates.map((date, index) => {
           const isToday = date === today;
+          const dayKey = [
+            'sunday',
+            'monday',
+            'tuesday',
+            'wednesday',
+            'thursday',
+            'friday',
+            'saturday',
+          ][dayjs(date).day()];
+
           return (
-            <View key={index} style={[styles.dateBox, isToday && styles.todayBox]}>
-              <Text style={[styles.dateText, isToday && styles.todayText]}>
-                {dayjs(date).format('dd')}
-              </Text>
-              <Text style={[styles.dateText, isToday && styles.todayText]}>
+            <ThemedCard key={index} style={[styles.dateBox, isToday && styles.todayBox]}>
+              <I18nText style={[styles.dateText, isToday && styles.todayText]} tKey={dayKey} />
+              <I18nText style={[styles.dateText, isToday && styles.todayText]}>
                 {dayjs(date).format('D/M')}
-              </Text>
-            </View>
+              </I18nText>
+            </ThemedCard>
           );
         })}
       </ScrollView>
 
-      {/* Search Input */}
-      <TextInput
-        style={styles.searchInput}
-        placeholder="חפש לפי שם משתמש..."
+      <ThemedInput
+        style={{ textAlign: getRTL() ? 'right' : 'left', marginBottom: 10 }}
+        placeholder={i18n.t('search_placeholder')}
         value={searchText}
         onChangeText={handleSearch}
       />
 
-      {/* Lessons today text */}
-        <View style={styles.lessonsBox}>
-          <Text style={styles.lessonsText}>שיעורים להיום</Text>
-        </View>
+      <ThemedView style={[styles.lessonsBox, getRTL() && { flexDirection: 'row' }]}>
+        <I18nText style={styles.lessonsText} tKey="lessons_today" />
+      </ThemedView>
 
-      {/* Users List */}
       <FlatList
         data={filteredUsers}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.userBox}>
-              <View>
-                <Text style={styles.name}>{item.instructor}</Text>
-                <Text style={styles.phone}>{item.lessonName}</Text>
-                <Text style={styles.phone}>{item.time}</Text>
-              </View>
+          <ThemedCard style={{ marginBottom: 10 }}>
+            <ThemedView style={[styles.userBox, getRTL() && { flexDirection: 'row' }]}>
+              <ThemedView>
+                <I18nText style={styles.name}>{item.instructor}</I18nText>
+                <I18nText style={styles.phone}>{item.lessonName}</I18nText>
+                <I18nText style={styles.phone}>{item.time}</I18nText>
+              </ThemedView>
               <Image
                 source={{ uri: `https://i.pravatar.cc/60?img=${item.id}` }}
                 style={styles.avatar}
               />
-            </View>
-        
-            <View style={styles.BtnBox}>
+            </ThemedView>
+
+            <ThemedView style={[styles.BtnBox]}>
               {item.isRegistered ? (
-                <>
-                  <TouchableOpacity style={[styles.Btn, { backgroundColor: '#f44336' }]}>
-                    <Text style={styles.registerText}>בטל</Text>
-                  </TouchableOpacity>
-                </>
+                <ThemedButton
+                  title={i18n.t('cancel')}
+                  style={{ backgroundColor: '#f44336' }}
+                />
               ) : (
-                <TouchableOpacity style={styles.Btn}>
-                  <Text style={styles.registerText}>הרשמה</Text>
-                </TouchableOpacity>
+                <ThemedButton title={i18n.t('register')} />
               )}
-            </View>
-          </View>
+            </ThemedView>
+          </ThemedCard>
         )}
-        
       />
-    </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  container: { flex: 1, padding: 15, backgroundColor: '#fff' },
-
-  dateScroll: { 
-    maxHeight:50,
-    marginTop:50,
-    marginBottom: 20
+  container: { flex: 1, padding: 15 },
+  dateScroll: {
+    maxHeight: 50,
+    marginTop: 50,
+    marginBottom: 20,
   },
   dateBox: {
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
     marginRight: 8,
-    backgroundColor: '#eee',
     borderRadius: 5,
   },
   todayBox: {
@@ -147,64 +161,33 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 14,
-    color: '#000',
   },
   todayText: {
     color: '#fff',
     fontWeight: 'bold',
   },
-  searchInput: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-    marginBottom: 15,
+  lessonsBox: {
+    marginBottom: 10,
   },
-
-  lessonsBox:{
-    alignItems: 'flex-end',
-  },
-  lessonsText:{
+  lessonsText: {
     fontSize: 24,
     fontWeight: 'bold',
-  },
-  card: {
-    alignItems:'flex-start',
-    padding: 5,
-    marginBottom: 10,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 10,
   },
   avatar: {
     width: 60,
     height: 60,
     borderRadius: 40,
   },
-
   name: { fontSize: 16, fontWeight: 'bold' },
-  phone: { fontSize: 14, color: '#555' },
-
-  userBox:{
-    flexDirection:'row',
+  phone: { fontSize: 14 },
+  userBox: {
+    flexDirection: 'row',
     justifyContent: 'space-around',
-    width:'100%',
-    padding:1,
+    width: '100%',
+    padding: 1,
   },
-  BtnBox:{
-    flexDirection:'row-reverse', 
-    justifyContent:'center',
-    width:'60%',
-  },
-  Btn: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    margin:2
-  },
-  registerText: {
-    color: '#fff',
-    fontSize: 14,
+  BtnBox: {
+    justifyContent: 'center',
+    width: '50%',
   },
 });
