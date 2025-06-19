@@ -1,29 +1,40 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
+import { useEffect, useState } from 'react';
+import { LogBox } from 'react-native';
+import { loadLocale } from '@/i18n';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+function AppContent() {
+  const { theme } = useTheme();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+  useEffect(() => {
+    LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+    <>
+      <Stack screenOptions={{ headerShown: false }} />
+      <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
+    </>
+  );
+}
+
+export default function RootLayout() {
+  const [localeLoaded, setLocaleLoaded] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      await loadLocale();
+      setLocaleLoaded(true);
+    })();
+  }, []);
+
+  if (!localeLoaded) return null;
+
+  return (
+    <ThemeProvider>
+      <AppContent />
     </ThemeProvider>
   );
 }
