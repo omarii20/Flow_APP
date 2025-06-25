@@ -13,6 +13,7 @@ export const translations = {
         thursday: 'Th',
         friday: 'Fr',
         saturday: 'Sa',
+        no_lessons_today: "No lessons available for this day",
 
         //settings page
         dark_mode: "Dark Mode",
@@ -33,6 +34,7 @@ export const translations = {
         thursday: 'ה',
         friday: 'ו',
         saturday: 'ש',
+        no_lessons_today: "אין שיעורים ביום זה",
 
         //settings page
         dark_mode: "מצב כהה",
@@ -53,6 +55,7 @@ export const translations = {
         thursday: 'الخميس',
         friday: 'الجمعة',
         saturday: 'السبت',
+        no_lessons_today: "لا توجد دروس في هذا اليوم",
 
         //settings page
         dark_mode: "الوضع الداكن",
