@@ -8,7 +8,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.myApp"
     },
     "android": {
       "edgeToEdgeEnabled": true,
@@ -19,10 +20,18 @@
       "output": "static"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fc9a6d7f-c038-4191-8ca3-0ed8b8a0bb0e"
+      }
+    },
+    "owner": "mohamedomari"
   }
 }
