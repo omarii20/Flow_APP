@@ -47,9 +47,12 @@ const LessonsList: React.FC<Props> = ({ lessons }) => {
 
           <ThemedView style={styles.BtnBox}>
             {item.isRegistered ? (
-              <ThemedButton title={i18n.t('cancel')} style={{ backgroundColor: '#f44336' }} />
+              <>
+              <ThemedButton title={i18n.t('cancel')} style={styles.ButtonsCanceled} />
+              <ThemedButton title={i18n.t('update')} style={styles.ButtonsCanceled} />
+              </>
             ) : (
-              <ThemedButton title={i18n.t('register')} />
+              <ThemedButton title={i18n.t('register')} style={styles.ButtonsRegister} />
             )}
           </ThemedView>
         </ThemedCard>
@@ -70,11 +73,24 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 40,
   },
-  name: { fontSize: 16, fontWeight: 'bold' },
-  phone: { fontSize: 14 },
+  name: { 
+    fontSize: 16, 
+    fontWeight: 'bold' 
+  },
+  phone: { 
+    fontSize: 14 
+  },
   BtnBox: {
-    justifyContent: 'center',
-    width: '50%',
+    flexDirection:"row",
+    justifyContent: 'space-between',
+    width: '100%'
+  },
+  ButtonsCanceled:{
+    width:"48%",
+    backgroundColor: '#f44336' 
+  },
+  ButtonsRegister:{
+    width:"48%",
   },
   noLessonsBox: {
     flex: 1,

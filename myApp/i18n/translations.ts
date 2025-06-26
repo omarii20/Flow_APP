@@ -6,6 +6,7 @@ export const translations = {
         lessons_today: "Today's Lessons",
         register: 'Register',
         cancel: 'Cancel',
+        update:'Update',
         sunday: 'Su',
         monday: 'Mo',
         tuesday: 'Tu',
@@ -19,7 +20,22 @@ export const translations = {
         dark_mode: "Dark Mode",
         profile: "Profile",
         choose_language: "Choose Language",
+
+        // month
+        january: 'January',
+        february: 'February',
+        march: 'March',
+        april: 'April',
+        may: 'May',
+        june: 'June',
+        july: 'July',
+        august: 'August',
+        september: 'September',
+        october: 'October',
+        november: 'November',
+        december: 'December',
     },
+
     he: {
         home: "דף הבית",
         settings: "הגדרות",
@@ -27,6 +43,7 @@ export const translations = {
         lessons_today: 'שיעורים להיום',
         register: 'הרשמה',
         cancel: 'בטל',
+        update:'עדכון',
         sunday: 'א',
         monday: 'ב',
         tuesday: 'ג',
@@ -40,7 +57,22 @@ export const translations = {
         dark_mode: "מצב כהה",
         profile: "פרופיל",
         choose_language: "בחר שפה",
+
+        // חודש
+        january: 'ינואר',
+        february: 'פברואר',
+        march: 'מרץ',
+        april: 'אפריל',
+        may: 'מאי',
+        june: 'יוני',
+        july: 'יולי',
+        august: 'אוגוסט',
+        september: 'ספטמבר',
+        october: 'אוקטובר',
+        november: 'נובמבר',
+        december: 'דצמבר',
     },
+
     ar: {
         home: "الصفحة الرئيسية",
         settings: "الإعدادات",
@@ -48,6 +80,7 @@ export const translations = {
         lessons_today: 'دروس اليوم',
         register: 'تسجيل',
         cancel: 'إلغاء',
+        update:'تحديث',
         sunday: 'الأحد',
         monday: 'الإثنين',
         tuesday: 'الثلاثاء',
@@ -61,6 +94,20 @@ export const translations = {
         dark_mode: "الوضع الداكن",
         profile: "الملف الشخصي",
         choose_language: "اختر اللغة",
+
+        // الأشهر
+        january: 'يناير',
+        february: 'فبراير',
+        march: 'مارس',
+        april: 'أبريل',
+        may: 'مايو',
+        june: 'يونيو',
+        july: 'يوليو',
+        august: 'أغسطس',
+        september: 'سبتمبر',
+        october: 'أكتوبر',
+        november: 'نوفمبر',
+        december: 'ديسمبر',
     }
   };
   
