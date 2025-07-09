@@ -50,7 +50,6 @@ const HorizontalDateScroll: React.FC<Props> = ({
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <TouchableOpacity
-          style={styles.arrowButton}
           onPress={() => onChangeMonth(currentMonth.subtract(1, 'month'))}
         >
           <Text style={styles.arrowText}>{isRTL ? '‹' : '‹'}</Text>
@@ -62,7 +61,6 @@ const HorizontalDateScroll: React.FC<Props> = ({
         </View>
 
         <TouchableOpacity
-          style={styles.arrowButton}
           onPress={() => onChangeMonth(currentMonth.add(1, 'month'))}
         >
           <Text style={styles.arrowText}>{isRTL ? '›' : '›'}</Text>
@@ -73,8 +71,8 @@ const HorizontalDateScroll: React.FC<Props> = ({
         horizontal
         ref={scrollRef}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={[{ paddingHorizontal: 10 }, isRTL && { flexDirection: 'row-reverse' }]}
-        style={styles.dateScroll}
+        contentContainerStyle={[{ paddingHorizontal: 10 }]}
+        style={[styles.dateScroll, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
       >
         {monthDates.map((date, index) => {
           const isToday = date === today;
@@ -129,23 +127,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  arrowButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-    backgroundColor: '#2196F3',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   arrowText: {
-    fontSize: 20,
-    color: '#fff',
-    fontWeight: 'bold',
-    lineHeight: 24,
+    fontSize: 50,
+    color: '#2196F3',
+    lineHeight: 40,
   },
   headerText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '800',
   },
   dateScroll: {
     maxHeight: 80,
